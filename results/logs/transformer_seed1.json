@@ -1,0 +1,59 @@
+{
+  "model": "distilroberta-base",
+  "seed": 1,
+  "max_len": 96,
+  "epochs": 3,
+  "lr": 3e-05,
+  "batch": 32,
+  "device": "cpu",
+  "torch_threads": 2,
+  "train_minutes_total": 277.7677236557007,
+  "inference_listings_per_s": 21.209613895247973,
+  "precision": 0.2690972222222222,
+  "recall": 0.3436807095343681,
+  "f1": 0.3018500486854917,
+  "ap": 0.21730616453146123,
+  "fold_f1_sd": 0.13242530593252125,
+  "folds": [
+    {
+      "fold": 0,
+      "threshold": 0.25,
+      "f1": 0.15510204081632653,
+      "n_fit": 6799,
+      "n_val": 1319,
+      "n_test": 2036
+    },
+    {
+      "fold": 1,
+      "threshold": 0.1,
+      "f1": 0.4594594594594595,
+      "n_fit": 6301,
+      "n_val": 1822,
+      "n_test": 2031
+    },
+    {
+      "fold": 2,
+      "threshold": 0.95,
+      "f1": 0.1910828025477707,
+      "n_fit": 6517,
+      "n_val": 1606,
+      "n_test": 2031
+    },
+    {
+      "fold": 3,
+      "threshold": 0.25,
+      "f1": 0.29955947136563876,
+      "n_fit": 7099,
+      "n_val": 1027,
+      "n_test": 2028
+    },
+    {
+      "fold": 4,
+      "threshold": 0.05,
+      "f1": 0.4090909090909091,
+      "n_fit": 6974,
+      "n_val": 1152,
+      "n_test": 2028
+    }
+  ]
+}
