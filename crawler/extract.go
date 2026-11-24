@@ -39,6 +39,25 @@ func Extract(page string) Document {
 	return d
 }
 
+// ExtractBody applies a per-market selector to the raw page: the capture groups of the first match of re
+// (for example the listing title and description) are joined with " . ", stripped of tags and decoded.
+// It returns "" when the selector does not match, so listing text is never mixed with page furniture.
+func ExtractBody(page string, re *regexp.Regexp) string {
+	m := re.FindStringSubmatch(page)
+	if m == nil {
+		return ""
+	}
+	parts := make([]string, 0, len(m)-1)
+	for _, g := range m[1:] {
+		t := reTag.ReplaceAllString(reSkip.ReplaceAllString(g, " "), " ")
+		t = strings.TrimSpace(reSpace.ReplaceAllString(html.UnescapeString(t), " "))
+		if t != "" {
+			parts = append(parts, t)
+		}
+	}
+	return strings.Join(parts, " . ")
+}
+
 // SameHostLinks resolves hrefs against base and keeps http(s) links on base's host.
 func SameHostLinks(base *url.URL, hrefs []string) []string {
 	out := make([]string, 0, len(hrefs))

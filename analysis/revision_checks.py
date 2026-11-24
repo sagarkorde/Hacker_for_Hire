@@ -73,7 +73,7 @@ def inner_threshold_eval(X, y, groups, rule_scores, rng):
             inner = StratifiedGroupKFold(n_splits=3, shuffle=True, random_state=SEED)
             if name.startswith("Rule"):
                 ts = [2, 3, 4, 5, 6, 7]
-                f = [f1_score(y[tr], rule_scores[tr] >= t) for t in ts]
+                f = [f1_score(y[tr], (rule_scores[tr] >= t) & (rule_primary[tr] >= 1)) for t in ts]  # same decision rule as at test time
                 thr = ts[int(np.argmax(f))]
                 pred[te] = ((rule_scores[te] >= thr) & (rule_primary[te] >= 1)).astype(int)
             else:
@@ -95,7 +95,9 @@ def inner_threshold_eval(X, y, groups, rule_scores, rng):
     return res, preds
 
 
-def tuned_fold_f1(X, y, groups):
+def tuned_fold_f1(X, y, groups, rule, rng):
+    """Nested C search; additionally, the decision threshold of the chosen model is set inside the training fold."""
+    from sklearn.base import clone
     outer = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=SEED)
     grids = {"LR tuned (word 1-2)": (lambda: make_pipeline(word_vec(), LogisticRegression(max_iter=2000, class_weight="balanced")),
                                      {"logisticregression__C": [0.25, 1, 4, 16]}),
@@ -104,14 +106,24 @@ def tuned_fold_f1(X, y, groups):
     out = {}
     for name, (mk, grid) in grids.items():
         pred = np.zeros(len(y), int)
-        ff = []
+        pred_thr = np.zeros(len(y), int)
+        ff, ff_thr = [], []
         for tr, te in outer.split(X, y, groups):
-            inner = StratifiedGroupKFold(n_splits=3, shuffle=True, random_state=SEED)
-            gs = GridSearchCV(mk(), grid, scoring="f1", cv=list(inner.split(X[tr], y[tr], groups[tr])), n_jobs=1)
+            inner = list(StratifiedGroupKFold(n_splits=3, shuffle=True, random_state=SEED).split(X[tr], y[tr], groups[tr]))
+            gs = GridSearchCV(mk(), grid, scoring="f1", cv=inner, n_jobs=1)
             gs.fit(X[tr], y[tr])
             pred[te] = gs.predict(X[te])
+            s_in = np.zeros(len(tr))
+            for a, b in inner:
+                s_in[b] = scores_of(clone(gs.best_estimator_).fit(X[tr][a], y[tr][a]), X[tr][b])
+            thr = best_threshold(y[tr], s_in)
+            pred_thr[te] = (scores_of(gs.best_estimator_, X[te]) >= thr).astype(int)
             ff.append(float(f1_score(y[te], pred[te])))
-        out[name] = {"f1": float(f1_score(y, pred)), "fold_f1": ff, "fold_sd": float(np.std(ff, ddof=1))}
+            ff_thr.append(float(f1_score(y[te], pred_thr[te])))
+        out[name] = {"f1": float(f1_score(y, pred)), "fold_f1": ff, "fold_sd": float(np.std(ff, ddof=1)),
+                     "trained_threshold": {**prf(y, pred_thr), "fold_sd": float(np.std(ff_thr, ddof=1)),
+                                           "paired_vs_fixed_rule": paired_boot(y, rule, pred_thr, groups, rng)}}
+        print(name, round(out[name]["f1"], 3), round(out[name]["trained_threshold"]["f1"], 3), flush=True)
     return out
 
 
@@ -183,7 +195,7 @@ def main():
         res[name]["paired_vs_fixed_rule"] = paired_boot(y, rule, pred, groups, rng)
     out["inner_threshold"] = res
     # 2. tuned fold SDs
-    out["tuned_folds"] = tuned_fold_f1(X, y, groups)
+    out["tuned_folds"] = tuned_fold_f1(X, y, groups, rule, rng)
     # 3. joint vendor + near-duplicate splits and threshold sensitivity
     sens = {}
     names = ["LR (word 1-2)", "SVM (word 1-2)", "LR (char 2-5)"]
@@ -214,7 +226,14 @@ def main():
     pages = pd.read_json(ROOT / "results" / "crawl_full" / "pages.jsonl", lines=True)
     pages["path"] = pages["url"].str.replace(r"^https?://[^/]+", "", regex=True)
     got = pages[pages["path"].isin(truth.keys()) & (pages["status"] == 200)].drop_duplicates("path").set_index("path")
+    body_crawl = ROOT / "results" / "crawl_body" / "pages.jsonl"
+    bc = None
+    if body_crawl.exists():
+        bc = pd.read_json(body_crawl, lines=True)
+        bc["path"] = bc["url"].str.replace(r"^https?://[^/]+", "", regex=True)
+        bc = bc[bc["path"].isin(truth.keys()) & (bc["status"] == 200)].drop_duplicates("path").set_index("path")
     yy, p_src, p_full, p_nocat, p_body, reached = [], [], [], [], [], []
+    b_reached, b_pred, b_agree = [], [], []
     agree_body = []
     for path, t in truth.items():
         src = t["item"] + " . " + t["desc"]
@@ -235,6 +254,15 @@ def main():
             p_full.append(0)
             p_nocat.append(0)
             p_body.append(0)
+        if bc is not None:
+            if path in bc.index and isinstance(bc.loc[path, "body"], str) and bc.loc[path, "body"]:
+                pb2 = rules.predict(bc.loc[path, "body"])[0]
+                b_reached.append(1)
+                b_pred.append(pb2)
+                b_agree.append(pb2 == ps)
+            else:
+                b_reached.append(0)
+                b_pred.append(0)
     yy, reached = np.array(yy), np.array(reached)
     e2e = {"listings": int(len(yy)), "positives": int(yy.sum()), "reached": int(reached.sum()),
            "positives_unreached": int(((reached == 0) & (yy == 1)).sum()),
@@ -242,6 +270,11 @@ def main():
     for name, p in [("source_text_all_listings", p_src), ("crawled_full_page", p_full),
                     ("crawled_without_breadcrumb", p_nocat), ("crawled_body_only", p_body)]:
         e2e[name] = prf(yy, np.array(p))
+    if bc is not None:
+        b_reached = np.array(b_reached)
+        e2e["crawler_body_selector"] = {"listings_with_body": int(b_reached.sum()),
+                                         "positives_missed": int(((b_reached == 0) & (yy == 1)).sum()),
+                                         "rule_agreement_with_source": float(np.mean(b_agree)), **prf(yy, np.array(b_pred))}
     out["end_to_end_detection"] = e2e
     (LOG / "revision_checks.json").write_text(json.dumps(out, indent=2))
     print(json.dumps({k: v for k, v in out.items() if k not in ("inner_threshold",)}, indent=1))

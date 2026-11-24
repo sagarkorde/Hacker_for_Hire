@@ -18,6 +18,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -32,6 +33,7 @@ type record struct {
 	FetchMS  float64 `json:"fetch_ms"`
 	Title    string  `json:"title,omitempty"`
 	Text     string  `json:"text,omitempty"`
+	Body     string  `json:"body,omitempty"`
 	Links    int     `json:"links"`
 	Err      string  `json:"error,omitempty"`
 }
@@ -63,6 +65,7 @@ type crawler struct {
 	maxDepth int
 	retries  int
 	out      chan record
+	bodyRe   *regexp.Regexp
 
 	attempted, ok, notFound, failed, retried, links int64
 }
@@ -143,6 +146,9 @@ func (c *crawler) visit(u string, depth int) {
 		atomic.AddInt64(&c.ok, 1)
 		doc := Extract(string(body))
 		rec.Title, rec.Text = doc.Title, doc.Text
+		if c.bodyRe != nil {
+			rec.Body = ExtractBody(string(body), c.bodyRe)
+		}
 		if depth < c.maxDepth {
 			base, _ := url.Parse(u)
 			for _, l := range SameHostLinks(base, doc.Hrefs) {
@@ -169,6 +175,7 @@ func main() {
 	timeout := flag.Duration("timeout", 30*time.Second, "per-request timeout")
 	retries := flag.Int("retries", 1, "retries for 5xx responses and network errors")
 	outDir := flag.String("out", "", "directory for pages.jsonl (empty: do not store pages)")
+	bodySel := flag.String("body", "", "optional per-market regular expression whose capture groups hold the listing body (stored as \"body\")")
 	flag.Parse()
 
 	client, err := newClient(*proxy, *timeout, *conc)
@@ -181,6 +188,9 @@ func main() {
 	}
 	c := &crawler{client: client, host: su.Host, sem: make(chan struct{}, *conc), seen: map[string]bool{},
 		maxPages: *maxPages, maxDepth: *maxDepth, retries: *retries}
+	if *bodySel != "" {
+		c.bodyRe = regexp.MustCompile(*bodySel)
+	}
 
 	var writerDone chan struct{}
 	if *outDir != "" {

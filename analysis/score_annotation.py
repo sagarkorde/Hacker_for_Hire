@@ -120,7 +120,10 @@ def main():
            "agreement": None if a.single else {"raw_6": float((s["annotator_A"] == s["annotator_B"]).mean()),
                          "kappa_6": float(cohen_kappa_score(s["annotator_A"], s["annotator_B"])),
                          "raw_binary": float((yA == yB).mean()),
-                         "kappa_binary": float(cohen_kappa_score(yA, yB))},
+                         "kappa_binary": float(cohen_kappa_score(yA, yB)),
+                         "raw_service_only": float(((s["annotator_A"] == "HAAS_SERVICE") == (s["annotator_B"] == "HAAS_SERVICE")).mean()),
+                         "kappa_service_only": float(cohen_kappa_score(s["annotator_A"] == "HAAS_SERVICE",
+                                                                       s["annotator_B"] == "HAAS_SERVICE"))},
            "adjudicated_counts": s["adjudicated"].value_counts().to_dict(),
            "weighted_haas_prevalence": float(np.sum(w * y) / np.sum(w)),
            "weighted_haas_service_prevalence": float(np.sum(w * y_strict) / np.sum(w))}

@@ -42,6 +42,8 @@ python3 analysis/bench.py --plan sensitivity --reps 3 --pin --log $L  # about 25
 python3 analysis/bench.py --plan startup --reps 5 --pin --log $L      # interpreter/runtime start-up CPU, 1 min
 ./bin/testbed -median 1.0 -sigma 0.5 -p503 0.02 -seed 11 &
 ./bin/hfhcrawl -c 50 -max 20000 -depth 8 -out results/crawl_full > results/logs/fullcrawl_summary.json
+./bin/hfhcrawl -c 50 -max 20000 -depth 8 -out results/crawl_body \
+  -body "(?s)<h1>(.*?)</h1>.*?<div class='desc'>(.*?)</div>" > results/logs/bodycrawl_summary.json   # listing-body selector
 python3 analysis/e2e.py              # results/logs/e2e.json  (from analysis/)
 python3 analysis/crawler_summary.py  # Table 3 and crawler numbers
 python3 analysis/figures.py arch pr market crawler
