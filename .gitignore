@@ -1,0 +1,12 @@
+bin/
+data/site/
+results/crawl_full/
+paper/_build/
+paper/render/
+paper/out/
+__pycache__/
+*.pyc
+paper/_build_plain/
+data/Agora.csv
+data/btc_usd_daily.csv
+data/listings_clean.parquet

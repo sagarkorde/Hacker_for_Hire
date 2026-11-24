@@ -1,0 +1,14 @@
+# Versions used for the reported results (Python 3.13). Go 1.24 for crawler/ and testbed/.
+numpy==2.5.3
+pandas==3.0.5
+pyarrow==26.0.1
+scipy==1.18.1
+scikit-learn==1.9.1
+matplotlib==3.11.2
+pillow==12.3.0
+aiohttp==3.14.5
+requests==2.34.2
+fastapi==0.165.0
+uvicorn==0.54.0
+pydantic==2.13.5
+# transformer baseline only (see .github/workflows/transformer.yml): torch, transformers>=4.44,<5

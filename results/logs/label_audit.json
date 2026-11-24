@@ -1,0 +1,16 @@
+{
+  "haas_with_any_primary_term": 172,
+  "haas_total": 451,
+  "haas_share_with_primary": 0.38137472283813745,
+  "nonhaas_with_2plus_primary": 288,
+  "nonhaas_2plus_by_category": {
+    "Information/Guides": 47,
+    "Info/eBooks/Other": 46,
+    "Data/Software": 35,
+    "Services/Money": 34,
+    "Information/eBooks": 33,
+    "Info/eBooks/IT": 30,
+    "Other": 15,
+    "Info/eBooks/Anonymity": 15
+  }
+}

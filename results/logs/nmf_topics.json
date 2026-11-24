@@ -1,0 +1,134 @@
+[
+  {
+    "topic": 0,
+    "top_terms": [
+      "website",
+      "hacking",
+      "passwords",
+      "mails",
+      "database",
+      "facebook",
+      "hacks",
+      "custom"
+    ],
+    "n_listings": 35,
+    "n_vendors": 10,
+    "median_btc": 1.0,
+    "examples": [
+      "WiFi Hacking",
+      "Bypass BIOS Passwords",
+      "Skype Hacking & Account Recovery Method",
+      "Custom Order for sillyme Part 2"
+    ]
+  },
+  {
+    "topic": 1,
+    "top_terms": [
+      "minecraft",
+      "sell",
+      "accounts",
+      "great",
+      "lifetime",
+      "account",
+      "game",
+      "selling"
+    ],
+    "n_listings": 47,
+    "n_vendors": 11,
+    "median_btc": 0.03206083384615387,
+    "examples": [
+      "OFFICIAL Account Creator Extreme 4.2",
+      "Netflix Account ..",
+      "USA Version Ford Rolling Code Grabber Opener",
+      "NFL Sunday Ticket - HALF OF THE ORIGINAL PRICE!"
+    ]
+  },
+  {
+    "topic": 2,
+    "top_terms": [
+      "tutorial",
+      "hack",
+      "atm",
+      "hacking",
+      "carding",
+      "step",
+      "manuals",
+      "guide"
+    ],
+    "n_listings": 80,
+    "n_vendors": 26,
+    "median_btc": 0.017945084620060787,
+    "examples": [
+      "Facebook hacking guide",
+      "ATM HACKING TUTORIAL",
+      "150+ Hacking Ebooks Collection",
+      "Carding CC + PAYPAL Tutorial"
+    ]
+  },
+  {
+    "topic": 3,
+    "top_terms": [
+      "sky",
+      "service",
+      "cccam",
+      "months",
+      "devices",
+      "enigma",
+      "available",
+      "offer"
+    ],
+    "n_listings": 42,
+    "n_vendors": 14,
+    "median_btc": 0.04375410166666667,
+    "examples": [
+      "12 Month HuluPlus gift Code",
+      "Pay TV Sky UK  Sky Germany HD TV  and much more.. CCcam Serv",
+      "DDOS ATTACK SERVICE",
+      "Pay TV Sky UK  Sky Germany HD TV  and much more..CCcam Servi"
+    ]
+  },
+  {
+    "topic": 4,
+    "top_terms": [
+      "buy",
+      "network",
+      "services",
+      "suspend",
+      "provision",
+      "previously",
+      "customer",
+      "cancel"
+    ],
+    "n_listings": 42,
+    "n_vendors": 19,
+    "median_btc": 0.07057660651515152,
+    "examples": [
+      "PayTV via Internet. HD IPTV Box+ 12 month subscription",
+      "I SEND MAIL FROM EU FOR YOU",
+      "Secrets of Hacking exposed",
+      "Crypting services"
+    ]
+  },
+  {
+    "topic": 5,
+    "top_terms": [
+      "botnet",
+      "setup",
+      "card",
+      "guide",
+      "software",
+      "builder",
+      "pick",
+      "set"
+    ],
+    "n_listings": 205,
+    "n_vendors": 45,
+    "median_btc": 0.06070560181318679,
+    "examples": [
+      "VPN > TOR > SOCK TUTORIAL",
+      "CALL/SMS verification service!",
+      "Mac & windows address changer",
+      "How To Setup a Botnet Guide"
+    ]
+  }
+]

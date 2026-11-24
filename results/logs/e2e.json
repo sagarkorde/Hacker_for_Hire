@@ -1,0 +1,37 @@
+{
+  "records": 10953,
+  "status_counts": {
+    "200": 10756,
+    "404": 194,
+    "503": 3
+  },
+  "listing_pages_total": 10154,
+  "listing_pages_crawled": 9967,
+  "listing_coverage": 0.9815836123695095,
+  "token_recall_mean": 1.0,
+  "token_recall_min": 1.0,
+  "boilerplate_share_mean": 0.4558890737768787,
+  "rule_agreement_full_page": 0.9496337915119896,
+  "rule_agreement_without_breadcrumb": 0.9774255041637403,
+  "disagreements_without_breadcrumb": 225,
+  "disagreements_removed_by_dropping_footer": 222,
+  "unreached_listings": 187,
+  "unreached_min_index_page": 8,
+  "max_depth_crawled": 8,
+  "service_checks_passed": "200/200",
+  "crawl_summary": {
+    "crawler": "go",
+    "concurrency": 50,
+    "max_pages": 20000,
+    "attempted": 10953,
+    "ok": 10756,
+    "not_found": 194,
+    "failed_final": 3,
+    "retries": 227,
+    "links_discovered": 10952,
+    "elapsed_s": 258.184289284,
+    "pages_per_min": 2545.3911305854435,
+    "ok_per_min": 2499.6098786247635,
+    "link_quality_ratio": 0.9820140600748654
+  }
+}

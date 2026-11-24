@@ -1,0 +1,55 @@
+name: transformer-baseline
+# Fine-tunes a transformer on the paper's vendor-disjoint folds (CPU runner) and merges the seeds.
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "Hugging Face model id"
+        default: "distilroberta-base"
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu "torch==2.5.1"
+          pip install "transformers>=4.44,<5" "scikit-learn>=1.4" pandas numpy
+      - name: Train seed ${{ matrix.seed }}
+        run: python analysis/transformer_baseline.py --seed ${{ matrix.seed }} --model "${{ inputs.model }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: transformer-seed-${{ matrix.seed }}
+          path: |
+            results/logs/transformer_seed${{ matrix.seed }}.json
+            results/logs/transformer_oof_seed${{ matrix.seed }}.csv
+  merge:
+    needs: train
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "scikit-learn>=1.4" pandas numpy
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: transformer-seed-*
+          merge-multiple: true
+          path: results/logs
+      - run: python analysis/transformer_merge.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: transformer-results
+          path: |
+            results/logs/transformer.json
+            results/logs/transformer_seed*.json
+            results/logs/transformer_oof_seed*.csv

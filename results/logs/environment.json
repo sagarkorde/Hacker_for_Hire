@@ -1,0 +1,10 @@
+{
+  "cpus": 2,
+  "ram": 8,
+  "go_ver": "1.24.7",
+  "py_ver": "3.13.18",
+  "skl_ver": "1.9.1",
+  "aiohttp_ver": "3.14.5",
+  "requests_ver": "2.34.2",
+  "sha_agora": "743c05fa682d3c940e80ed03fe52c6bc3035236c2f3fddc09c59baa797a745a2"
+}

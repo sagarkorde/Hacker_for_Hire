@@ -1,0 +1,54 @@
+[1/54] go       c=  1 med=1.0 rep=1 ->     52.8 p/min cpu=0.09s rss=15.3MB ok=117 att=120
+[2/54] asyncio  c=  1 med=1.0 rep=1 ->     52.7 p/min cpu=0.35s rss=42.3MB ok=118 att=120
+[3/54] threads  c=  1 med=1.0 rep=1 ->     52.7 p/min cpu=0.40s rss=36.6MB ok=118 att=120
+[4/54] go       c=  5 med=1.0 rep=1 ->    257.1 p/min cpu=0.14s rss=15.8MB ok=195 att=200
+[5/54] asyncio  c=  5 med=1.0 rep=1 ->    257.0 p/min cpu=0.44s rss=42.2MB ok=196 att=200
+[6/54] threads  c=  5 med=1.0 rep=1 ->    256.8 p/min cpu=0.48s rss=37.5MB ok=196 att=200
+[7/54] go       c= 10 med=1.0 rep=1 ->    487.4 p/min cpu=0.30s rss=16.4MB ok=388 att=400
+[8/54] asyncio  c= 10 med=1.0 rep=1 ->    487.3 p/min cpu=0.61s rss=42.7MB ok=389 att=400
+[9/54] threads  c= 10 med=1.0 rep=1 ->    486.9 p/min cpu=0.74s rss=38.1MB ok=388 att=400
+[10/54] go       c= 25 med=1.0 rep=1 ->   1157.5 p/min cpu=0.58s rss=19.6MB ok=968 att=1000
+[11/54] asyncio  c= 25 med=1.0 rep=1 ->   1157.1 p/min cpu=1.02s rss=44.5MB ok=964 att=1000
+[12/54] threads  c= 25 med=1.0 rep=1 ->   1156.4 p/min cpu=1.60s rss=41.2MB ok=967 att=1000
+[13/54] go       c= 50 med=1.0 rep=1 ->   2312.2 p/min cpu=1.02s rss=24.2MB ok=1944 att=2000
+[14/54] asyncio  c= 50 med=1.0 rep=1 ->   2310.5 p/min cpu=1.83s rss=47.0MB ok=1948 att=2000
+[15/54] threads  c= 50 med=1.0 rep=1 ->   2309.7 p/min cpu=2.50s rss=46.5MB ok=1951 att=2000
+[16/54] go       c=100 med=1.0 rep=1 ->   4074.1 p/min cpu=0.86s rss=27.0MB ok=1953 att=2000
+[17/54] asyncio  c=100 med=1.0 rep=1 ->   4076.7 p/min cpu=1.54s rss=47.5MB ok=1952 att=2000
+[18/54] threads  c=100 med=1.0 rep=1 ->   4073.0 p/min cpu=2.38s rss=50.3MB ok=1952 att=2000
+[19/54] go       c=  1 med=1.0 rep=2 ->     49.5 p/min cpu=0.10s rss=16.0MB ok=119 att=120
+[20/54] asyncio  c=  1 med=1.0 rep=2 ->     49.5 p/min cpu=0.35s rss=42.0MB ok=118 att=120
+[21/54] threads  c=  1 med=1.0 rep=2 ->     49.4 p/min cpu=0.37s rss=36.6MB ok=118 att=120
+[22/54] go       c=  5 med=1.0 rep=2 ->    237.5 p/min cpu=0.16s rss=16.0MB ok=196 att=200
+[23/54] asyncio  c=  5 med=1.0 rep=2 ->    237.4 p/min cpu=0.49s rss=42.2MB ok=197 att=200
+[24/54] threads  c=  5 med=1.0 rep=2 ->    237.3 p/min cpu=0.47s rss=37.6MB ok=197 att=200
+[25/54] go       c= 10 med=1.0 rep=2 ->    472.2 p/min cpu=0.27s rss=16.0MB ok=387 att=400
+[26/54] asyncio  c= 10 med=1.0 rep=2 ->    472.0 p/min cpu=0.61s rss=42.4MB ok=389 att=400
+[27/54] threads  c= 10 med=1.0 rep=2 ->    471.8 p/min cpu=0.77s rss=38.0MB ok=390 att=400
+[28/54] go       c= 25 med=1.0 rep=2 ->   1221.1 p/min cpu=0.57s rss=19.8MB ok=966 att=1000
+[29/54] asyncio  c= 25 med=1.0 rep=2 ->   1220.4 p/min cpu=1.08s rss=44.7MB ok=968 att=1000
+[30/54] threads  c= 25 med=1.0 rep=2 ->   1219.4 p/min cpu=1.58s rss=41.0MB ok=966 att=1000
+[31/54] go       c= 50 med=1.0 rep=2 ->   2373.1 p/min cpu=1.08s rss=24.7MB ok=1943 att=2000
+[32/54] asyncio  c= 50 med=1.0 rep=2 ->   2372.1 p/min cpu=1.88s rss=47.2MB ok=1949 att=2000
+[33/54] threads  c= 50 med=1.0 rep=2 ->   2370.0 p/min cpu=2.93s rss=46.1MB ok=1948 att=2000
+[34/54] go       c=100 med=1.0 rep=2 ->   4130.9 p/min cpu=1.02s rss=28.8MB ok=1945 att=2000
+[35/54] asyncio  c=100 med=1.0 rep=2 ->   4128.6 p/min cpu=1.67s rss=48.7MB ok=1947 att=2000
+[36/54] threads  c=100 med=1.0 rep=2 ->   4122.8 p/min cpu=2.64s rss=49.4MB ok=1944 att=2000
+[37/54] go       c=  1 med=1.0 rep=3 ->     53.9 p/min cpu=0.10s rss=16.0MB ok=119 att=120
+[38/54] asyncio  c=  1 med=1.0 rep=3 ->     53.9 p/min cpu=0.39s rss=41.3MB ok=118 att=120
+[39/54] threads  c=  1 med=1.0 rep=3 ->     53.9 p/min cpu=0.37s rss=36.2MB ok=118 att=120
+[40/54] go       c=  5 med=1.0 rep=3 ->    259.3 p/min cpu=0.15s rss=16.0MB ok=197 att=200
+[41/54] asyncio  c=  5 med=1.0 rep=3 ->    259.2 p/min cpu=0.44s rss=41.7MB ok=196 att=200
+[42/54] threads  c=  5 med=1.0 rep=3 ->    259.1 p/min cpu=0.49s rss=36.9MB ok=196 att=200
+[43/54] go       c= 10 med=1.0 rep=3 ->    514.7 p/min cpu=0.25s rss=16.0MB ok=384 att=400
+[44/54] asyncio  c= 10 med=1.0 rep=3 ->    514.5 p/min cpu=0.59s rss=42.3MB ok=388 att=400
+[45/54] threads  c= 10 med=1.0 rep=3 ->    514.1 p/min cpu=0.74s rss=38.0MB ok=390 att=400
+[46/54] go       c= 25 med=1.0 rep=3 ->   1252.0 p/min cpu=0.57s rss=19.9MB ok=972 att=1000
+[47/54] asyncio  c= 25 med=1.0 rep=3 ->   1251.0 p/min cpu=1.03s rss=43.9MB ok=965 att=1000
+[48/54] threads  c= 25 med=1.0 rep=3 ->   1250.2 p/min cpu=1.61s rss=40.9MB ok=966 att=1000
+[49/54] go       c= 50 med=1.0 rep=3 ->   2456.4 p/min cpu=1.04s rss=25.1MB ok=1947 att=2000
+[50/54] asyncio  c= 50 med=1.0 rep=3 ->   2455.3 p/min cpu=1.74s rss=46.6MB ok=1944 att=2000
+[51/54] threads  c= 50 med=1.0 rep=3 ->   2452.1 p/min cpu=2.79s rss=46.0MB ok=1950 att=2000
+[52/54] go       c=100 med=1.0 rep=3 ->   4553.7 p/min cpu=0.97s rss=26.7MB ok=1949 att=2000
+[53/54] asyncio  c=100 med=1.0 rep=3 ->   4549.0 p/min cpu=1.69s rss=47.8MB ok=1947 att=2000
+[54/54] threads  c=100 med=1.0 rep=3 ->   4545.2 p/min cpu=2.59s rss=50.0MB ok=1946 att=2000

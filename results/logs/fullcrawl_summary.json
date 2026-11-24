@@ -1,0 +1,1 @@
+{"crawler":"go","concurrency":50,"max_pages":20000,"attempted":10953,"ok":10756,"not_found":194,"failed_final":3,"retries":227,"links_discovered":10952,"elapsed_s":258.184289284,"pages_per_min":2545.3911305854435,"ok_per_min":2499.6098786247635,"link_quality_ratio":0.9820140600748654}

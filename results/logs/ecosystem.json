@@ -1,0 +1,175 @@
+{
+  "concentration_haas": {
+    "n_vendors": 63,
+    "top1_share": 0.11529933481152993,
+    "top5_share": 0.37250554323725055,
+    "top10_share": 0.6031042128603105,
+    "gini": 0.6114102699468553,
+    "hhi": 0.04629770748423065
+  },
+  "concentration_digital": {
+    "n_vendors": 676,
+    "top1_share": 0.07563521764821746,
+    "top5_share": 0.24867047468977743,
+    "top10_share": 0.39541067559582427,
+    "gini": 0.8181446551509126,
+    "hhi": 0.02142421326501947
+  },
+  "concentration_full_market": {
+    "n_vendors": 3188,
+    "top1_share": 0.008045597830071109,
+    "top5_share": 0.037341470566674,
+    "top10_share": 0.06277032475624954,
+    "gini": 0.6016503808404013,
+    "hhi": 0.001216084038940872
+  },
+  "btc_usd_2014_2015": {
+    "median": 347.79999999999995,
+    "p10": 231.04,
+    "p90": 623.0,
+    "days": 730
+  },
+  "prices_by_category": {
+    "Services/Hacking": {
+      "n": 451,
+      "median_btc": 0.0474022432653061,
+      "q1_btc": 0.014959344999999999,
+      "q3_btc": 0.20722607099999996,
+      "median_usd_indicative": 16.48650020767346
+    },
+    "Data/Accounts": {
+      "n": 1230,
+      "median_btc": 0.03593649842712843,
+      "q1_btc": 0.01922977546875,
+      "q3_btc": 0.10331589625,
+      "median_usd_indicative": 12.498714152955266
+    },
+    "Data/Software": {
+      "n": 356,
+      "median_btc": 0.02864990159544161,
+      "q1_btc": 0.012820809087301589,
+      "q3_btc": 0.07660201230633798,
+      "median_usd_indicative": 9.964435774894591
+    },
+    "Data/Pirated": {
+      "n": 529,
+      "median_btc": 0.008640023,
+      "q1_btc": 0.004209703076923076,
+      "q3_btc": 0.02458897134751772,
+      "median_usd_indicative": 3.0049999994
+    },
+    "Services/Money": {
+      "n": 1472,
+      "median_btc": 0.09676213494588742,
+      "q1_btc": 0.029209447199999992,
+      "q3_btc": 0.47991807010416665,
+      "median_usd_indicative": 33.65387053417964
+    },
+    "Information/Guides": {
+      "n": 918,
+      "median_btc": 0.030507908230769227,
+      "q1_btc": 0.016812998,
+      "q3_btc": 0.0629621013252206,
+      "median_usd_indicative": 10.610650482661535
+    },
+    "Services/Other": {
+      "n": 486,
+      "median_btc": 0.07582549216964282,
+      "q1_btc": 0.024468681601890755,
+      "q3_btc": 0.3723940378499999,
+      "median_usd_indicative": 26.37210617660177
+    }
+  },
+  "kruskal_prices": {
+    "H": 724.3587931215451,
+    "p": 3.3628098972930417e-153,
+    "categories": [
+      "Services/Hacking",
+      "Data/Accounts",
+      "Data/Software",
+      "Data/Pirated",
+      "Services/Money",
+      "Information/Guides",
+      "Services/Other"
+    ],
+    "n": 5442,
+    "epsilon_squared": 0.13312971753750139
+  },
+  "haas_vs_other_digital_price": {
+    "U": 2482377.5,
+    "p": 1.3182578681912312e-06,
+    "cliffs_delta": 0.13452807815627463,
+    "median_haas": 0.0474022432653061,
+    "median_other": 0.029755406696428587
+  },
+  "haas_share_under_usd": {
+    "10": 0.4057649667405765,
+    "50": 0.6696230598669624,
+    "100": 0.7893569844789357,
+    "1000": 0.9711751662971175
+  },
+  "price_anomalies_haas": {
+    "n": 451,
+    "iqr": 7,
+    "robust_z": 9,
+    "isolation_forest": 47,
+    "all_three": 7,
+    "jaccard_iqr_rz": 0.7777777777777778,
+    "jaccard_iqr_if": 0.14893617021276595,
+    "jaccard_rz_if": 0.19148936170212766,
+    "iqr_subset_of_if": true,
+    "rz_subset_of_if": true,
+    "iqr_high": 5,
+    "iqr_low": 2
+  },
+  "entity_share_haas": {
+    "email": 0.011086474501108648,
+    "jabber": 0.0022172949002217295,
+    "icq": 0.004434589800443459,
+    "skype": 0.017738359201773836,
+    "telegram": 0.0,
+    "pgp": 0.004434589800443459,
+    "btc_address": 0.0,
+    "any": 0.026607538802660754
+  },
+  "entity_share_other_digital": {
+    "email": 0.0015459136349582603,
+    "jabber": 0.00030918272699165207,
+    "icq": 0.00010306090899721736,
+    "skype": 0.0013397918169638257,
+    "telegram": 0.0,
+    "pgp": 0.0034010099969081727,
+    "btc_address": 0.0,
+    "any": 0.006492837266824693
+  },
+  "haas_vendors_cross_listing": {
+    "n_vendors": 63,
+    "only_haas_category": 4,
+    "also_drugs": 42,
+    "also_data": 35,
+    "also_services_money": 34,
+    "also_information": 41,
+    "also_counterfeits_forgeries": 28,
+    "mean_categories_per_vendor": 11.476190476190476,
+    "haas_listing_share_of_their_listings": 0.0533096926713948
+  },
+  "category_vendor_jaccard_with_haas": {
+    "Information/eBooks": 0.2169811320754717,
+    "Info/eBooks/Other": 0.2,
+    "Info/eBooks/Making money": 0.1978021978021978,
+    "Data/Accounts": 0.19696969696969696,
+    "Information/Guides": 0.18803418803418803,
+    "Data/Software": 0.18018018018018017
+  },
+  "bipartite_digital": {
+    "vendors": 676,
+    "categories": 24,
+    "edges": 1361,
+    "vendors_in_2plus_categories": 238
+  },
+  "nmf": {
+    "k": 6,
+    "reconstruction_err": 19.51100601782825,
+    "vocab": 633
+  }
+}
