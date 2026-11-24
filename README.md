@@ -65,8 +65,10 @@ python3 score_annotation.py              # kappa and design-weighted P/R/F1 -> r
 `provisional_labels_claude.csv` holds provisional labels produced by a large language model (Claude) on the same
 blinded sheet. They are not human labels; `score_annotation.py --single` scores them separately.
 
-Transformer baseline: run the `transformer-baseline` workflow (Actions tab, "Run workflow"), or
-`python3 analysis/transformer_baseline.py --seed 1` locally, then `python3 analysis/transformer_merge.py`.
+Transformer baseline: run the `transformer-baseline` workflow (Actions tab, "Run workflow"; about 2-4 h per seed on a
+CPU runner), then run `publish-transformer-results` with that run's id, which merges the finished seeds into
+`results/logs/transformer.json` and commits them. Locally: `python3 analysis/transformer_baseline.py --seed 1`, then
+`python3 analysis/transformer_merge.py`.
 
 `classify.py`, `ecosystem.py` and `e2e.py` import `analysis/rules.py`; run them from `analysis/` or add it to `PYTHONPATH`.
 
