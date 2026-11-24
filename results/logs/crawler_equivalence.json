@@ -1,0 +1,134 @@
+[
+ {
+  "c": 1,
+  "impl": "asyncio",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.05937185038040749,
+  "ci90_pct": [
+   -0.06616698924907238,
+   -0.052576249466906866
+  ],
+  "equivalent_5pct": true
+ },
+ {
+  "c": 1,
+  "impl": "threads",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.12324545697725009,
+  "ci90_pct": [
+   -0.13863257290027686,
+   -0.1078559701339854
+  ],
+  "equivalent_5pct": true
+ },
+ {
+  "c": 5,
+  "impl": "asyncio",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.04716499859781509,
+  "ci90_pct": [
+   -0.055233774600593755,
+   -0.039095571183778155
+  ],
+  "equivalent_5pct": true
+ },
+ {
+  "c": 5,
+  "impl": "threads",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.11951057546810695,
+  "ci90_pct": [
+   -0.1489995120155463,
+   -0.0900129299705954
+  ],
+  "equivalent_5pct": true
+ },
+ {
+  "c": 10,
+  "impl": "asyncio",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.04407220208998419,
+  "ci90_pct": [
+   -0.050794708650758746,
+   -0.03734924337860379
+  ],
+  "equivalent_5pct": true
+ },
+ {
+  "c": 10,
+  "impl": "threads",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.10865777462624182,
+  "ci90_pct": [
+   -0.12943623912238245,
+   -0.08787498708865416
+  ],
+  "equivalent_5pct": true
+ },
+ {
+  "c": 25,
+  "impl": "asyncio",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.04735058862662678,
+  "ci90_pct": [
+   -0.056372106955115964,
+   -0.03832825596116196
+  ],
+  "equivalent_5pct": true
+ },
+ {
+  "c": 25,
+  "impl": "threads",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.11233782062479714,
+  "ci90_pct": [
+   -0.1309482655474925,
+   -0.09372390767417027
+  ],
+  "equivalent_5pct": true
+ },
+ {
+  "c": 50,
+  "impl": "asyncio",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.0719889385470851,
+  "ci90_pct": [
+   -0.12246361851505627,
+   -0.021488750407716584
+  ],
+  "equivalent_5pct": true
+ },
+ {
+  "c": 50,
+  "impl": "threads",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.12894446880864496,
+  "ci90_pct": [
+   -0.17647325009677584,
+   -0.08139305773448013
+  ],
+  "equivalent_5pct": true
+ },
+ {
+  "c": 100,
+  "impl": "asyncio",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.569679715503657,
+  "ci90_pct": [
+   -1.772407467747772,
+   0.647774591761574
+  ],
+  "equivalent_5pct": true
+ },
+ {
+  "c": 100,
+  "impl": "threads",
+  "n_pairs": 5,
+  "mean_diff_pct": -0.5476206584624221,
+  "ci90_pct": [
+   -1.5870640148016646,
+   0.502801361202132
+  ],
+  "equivalent_5pct": true
+ }
+]

@@ -61,6 +61,27 @@ def main():
         v = [val(i, c, "ppm") for i in ["go", "asyncio", "threads"]]
         gaps.append((max(v) - min(v)) / np.mean(v))
     n["max_gap_pct"] = f"{100 * max(gaps):.1f}"
+    # paired equivalence test (TOST): throughput ratio of each Python crawler to Go within the same repetition
+    # (same server seed); 90% t-interval of the mean log ratio; margin +/-5%
+    from scipy import stats
+    margin = 0.05
+    eq = []
+    piv = m.pivot_table(index=["concurrency", "rep"], columns="impl", values="pages_per_min")
+    for c in sorted(m["concurrency"].unique()):
+        for impl in ["asyncio", "threads"]:
+            lr = np.log(piv.loc[c, impl] / piv.loc[c, "go"]).dropna()
+            k = len(lr)
+            half = stats.t.ppf(0.95, k - 1) * lr.std(ddof=1) / np.sqrt(k)
+            lo, hi = np.exp(lr.mean() - half) - 1, np.exp(lr.mean() + half) - 1
+            eq.append({"c": int(c), "impl": impl, "n_pairs": int(k), "mean_diff_pct": 100 * (np.exp(lr.mean()) - 1),
+                       "ci90_pct": [100 * lo, 100 * hi], "equivalent_5pct": bool(lo > -margin and hi < margin)})
+    (LOG / "crawler_equivalence.json").write_text(json.dumps(eq, indent=1))
+    n["eq_margin_pct"] = f"{100 * margin:.0f}"
+    n["eq_all"] = all(e["equivalent_5pct"] for e in eq)
+    n["eq_n"] = len(eq)
+    slow = [-e["mean_diff_pct"] for e in eq if e["c"] <= 50]
+    n["eq_slow_lo"], n["eq_slow_hi"] = f"{min(slow):.2f}", f"{max(slow):.2f}"
+    n["eq_bound_pct"] = f"{max(max(abs(e['ci90_pct'][0]), abs(e['ci90_pct'][1])) for e in eq):.1f}"
     n["eff_c1"] = f"{100 * np.mean([val(i, 1, 'eff') for i in NAMES]):.0f}"
     n["eff_c50"] = f"{100 * np.mean([val(i, 50, 'eff') for i in NAMES]):.0f}"
     n["eff_cmax_go"] = f"{100 * val('go', cmax, 'eff'):.0f}"

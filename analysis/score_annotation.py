@@ -1,11 +1,13 @@
 """Score the human-annotation study once results/annotation_sample.csv has been labelled.
 
 Inputs
-  results/annotation_sample.csv  columns annotator_A, annotator_B, adjudicated filled with the
-                                 labels of docs/annotation_guideline.md
-  results/logs/oof_digital.parquet  out-of-fold predictions from classify.py
+  results/annotation/key.csv          the sample with its hidden columns (vendor, category, stratum)
+  results/annotation/adjudication.csv label_A, label_B and adjudicated (annotation_kit.py adjudicate)
+  results/logs/oof_digital.parquet    out-of-fold predictions from classify.py
+  --single FILE                       instead: one set of labels (id,label), e.g. provisional
+                                      model-assisted labels; no agreement statistics
 Output
-  results/logs/annotation_eval.json  (read by paper/build_doc.py when present)
+  results/logs/annotation_eval.json  (read by paper/build_doc.py when present), or --out
 
 What it reports
   * agreement: raw agreement and Cohen's kappa for the six labels and for the binary HaaS label
@@ -78,15 +80,25 @@ def boot(y, pred, w, groups, rng):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--csv", default=str(ROOT / "results" / "annotation_sample.csv"))
+    ap.add_argument("--key", default=str(ROOT / "results" / "annotation" / "key.csv"))
+    ap.add_argument("--adjudication", default=str(ROOT / "results" / "annotation" / "adjudication.csv"))
+    ap.add_argument("--single", default=None)
     ap.add_argument("--out", default=str(LOG / "annotation_eval.json"))
     a = ap.parse_args()
-    s = pd.read_csv(a.csv, keep_default_na=False)
+    s = pd.read_csv(a.key, keep_default_na=False)
+    if a.single:
+        lab = pd.read_csv(a.single, keep_default_na=False).set_index("id")["label"]
+        s["annotator_A"] = s["annotator_B"] = s["adjudicated"] = s["id"].map(lab).fillna("")
+    else:
+        adj = pd.read_csv(a.adjudication, keep_default_na=False).set_index("id")
+        s["annotator_A"] = s["id"].map(adj["label_A"]).fillna("")
+        s["annotator_B"] = s["id"].map(adj["label_B"]).fillna("")
+        s["adjudicated"] = s["id"].map(adj["adjudicated"]).fillna("")
     for c in ["annotator_A", "annotator_B", "adjudicated"]:
-        s[c] = s[c].str.strip().str.upper()
+        s[c] = s[c].astype(str).str.strip().str.upper()
         bad = set(s[c]) - set(LABELS)
         if bad:
-            raise SystemExit(f"column {c}: unknown or empty labels {sorted(bad)[:5]}; label every row first")
+            raise SystemExit(f"column {c}: unknown or empty labels {sorted(bad)[:5]}; label and adjudicate every row first")
     sizes, best = stratum_sizes()
     n_s = s["stratum"].value_counts().to_dict()
     w = s["stratum"].map(lambda k: sizes[k] / n_s[k]).to_numpy()
@@ -104,8 +116,8 @@ def main():
     y_strict = (s["adjudicated"] == "HAAS_SERVICE").to_numpy().astype(int)
     groups = s["Vendor"].to_numpy()
     rng = np.random.default_rng(SEED)
-    out = {"n": int(len(s)), "strata_sample": n_s, "strata_population": sizes,
-           "agreement": {"raw_6": float((s["annotator_A"] == s["annotator_B"]).mean()),
+    out = {"n": int(len(s)), "mode": "single" if a.single else "two_annotators", "strata_sample": n_s, "strata_population": sizes,
+           "agreement": None if a.single else {"raw_6": float((s["annotator_A"] == s["annotator_B"]).mean()),
                          "kappa_6": float(cohen_kappa_score(s["annotator_A"], s["annotator_B"])),
                          "raw_binary": float((yA == yB).mean()),
                          "kappa_binary": float(cohen_kappa_score(yA, yB))},
@@ -119,7 +131,7 @@ def main():
             out.setdefault(name, {})[lab] = {"precision": p, "recall": r, "f1": f,
                                              "ci95": {"precision": ci[0], "recall": ci[1], "f1": ci[2]}}
     Path(a.out).write_text(json.dumps(out, indent=2))
-    print(json.dumps(out["agreement"], indent=1))
+    print(json.dumps(out["agreement"], indent=1), out["weighted_haas_prevalence"])
     print({k: round(v["haas"]["f1"], 3) for k, v in out.items() if isinstance(v, dict) and "haas" in v})
 
 

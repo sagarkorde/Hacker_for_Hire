@@ -17,7 +17,8 @@ No live onion service is contacted by any script in this repository. All crawlin
 | `data/` | `fetch_data.sh` downloads the public Agora 2014-2015 listings (`Agora.csv`, SHA-256 `743c05fa682d3c940e80ed03fe52c6bc3035236c2f3fddc09c59baa797a745a2`) and `btc_usd_daily.csv` from their GitHub mirrors and checks both hashes. `onionperf_onion_latencies.csv`: OnionPerf onion-service latencies from Tor Metrics (22 Aug-15 Nov 2026), used to check the testbed latency. |
 | `results/logs/` | Every number reported in the paper (JSON/JSONL/CSV). |
 | `results/figures/` | Figures 1-4. |
-| `docs/annotation_guideline.md` | Guideline for the pending human-annotation study (`analysis/score_annotation.py` scores it). |
+| `docs/annotation_guideline.md` | Guideline for the blinded annotation study. |
+| `results/annotation/` | Blinded annotation kit: `annotate.html`, per-annotator sheets, `key.csv` (hidden columns), provisional model labels. |
 | `docs/traceability.md` | Which script and log file produce each number in the paper. |
 | `notebooks/transformer_baseline.ipynb`, `analysis/transformer_baseline.py` | Fine-tuned transformer on the same vendor-disjoint folds (Colab notebook, or the script, which `.github/workflows/transformer.yml` runs on GitHub Actions for three seeds). |
 | `requirements.txt` | Python package versions used for the reported results. |
@@ -45,7 +46,24 @@ python3 analysis/e2e.py              # results/logs/e2e.json  (from analysis/)
 python3 analysis/crawler_summary.py  # Table 3 and crawler numbers
 python3 analysis/figures.py arch pr market crawler
 python3 analysis/sample_annotation.py
+python3 analysis/annotation_kit.py make   # blinded sheets, annotate.html and key.csv in results/annotation/ (from analysis/)
+python3 analysis/revision_checks.py      # thresholds chosen in training folds, near-duplicate sensitivity, end-to-end detection (from analysis/)
 ```
+
+## Annotation (blinded)
+
+Annotators open `results/annotation/annotate.html` in a browser, choose their letter (A or B) and label all 400
+items; "Export CSV" saves `sheet_annotator_<A|B>.csv` into `results/annotation/`. Annotators must not open
+`key.csv`, `results/annotation_sample.csv`, `provisional_labels_claude.csv` or the other annotator's sheet. Then:
+
+```bash
+cd analysis
+python3 annotation_kit.py adjudicate     # adjudication.csv: resolve the disagreements together
+python3 score_annotation.py              # kappa and design-weighted P/R/F1 -> results/logs/annotation_eval.json
+```
+
+`provisional_labels_claude.csv` holds provisional labels produced by a large language model (Claude) on the same
+blinded sheet. They are not human labels; `score_annotation.py --single` scores them separately.
 
 Transformer baseline: run the `transformer-baseline` workflow (Actions tab, "Run workflow"), or
 `python3 analysis/transformer_baseline.py --seed 1` locally, then `python3 analysis/transformer_merge.py`.
