@@ -1,0 +1,36 @@
+name: publish-transformer-results
+# Copies the per-seed artifacts of a transformer-baseline run into results/logs/, merges them and commits them,
+# so the released repository contains the transformer outputs (also those of seeds that are still running later).
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Run id of a transformer-baseline run"
+        required: true
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "scikit-learn>=1.4" pandas numpy
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: transformer-seed-*
+          merge-multiple: true
+          path: results/logs
+      - run: python analysis/transformer_merge.py
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/logs/transformer*.json results/logs/transformer_oof_seed*.csv
+          git commit -m "Add transformer baseline results from run ${{ inputs.run_id }}" || echo "nothing to commit"
+          git push
